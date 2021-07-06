@@ -1,0 +1,159 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!-- mapbox CSS and JS -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet'/>
+  <!-- FONTAWESOME CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/weather_map.css">
+  <title>Accuweather Forecast</title>
+</head>
+<body>
+
+<main>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(255, 255, 255, 0.9);">
+    <h6 class="navbar-brand">Weather</h6>
+    <div class="city ml-auto navbar-light"></div>
+    <div id="current" class="navbar-light ml-1"></div>
+    <div class="navbar-nav ml-auto">
+      <div class="geolocation mx-2">
+       <a id="geoLocation"><i class="fas fa-map-marker-alt"></i></a>
+      </div>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" id="weatherLocation" placeholder="City, State">
+        <button class="btn btn-secondary my-2 my-sm-0" id="weatherBtn" >Search Weather</button>
+      </form>
+    </div>
+  </nav>
+  <video autoplay muted loop id="myvideo" class="video">
+  </video>
+<!--  //*************** WEATHER CARDS **********-->
+  <div class="row mx-1 mt-2 d-flex justify-content-around">
+    <div class="col-2 card mx-1" style="width: 18rem;">
+      <div class="card-body">
+        <div class="date card-title d-flex flex-column align-items-center justify-content-center mb-0">
+        </div>
+        <div class="icons d-flex justify-content-center"></div>
+        <p class="weather card-text m-0 d-flex justify-content-center"></p>
+        <p class="high card-text m-0 d-flex justify-content-center"></p>
+      </div>
+    </div>
+    <div class="col-2 card mx-1" style="width: 18rem;">
+      <div class="card-body">
+        <div class="date card-title d-flex flex-column align-items-center justify-content-center mb-0">
+        </div>
+        <div class="icons d-flex justify-content-center"></div>
+        <p class="weather card-text m-0 d-flex justify-content-center"></p>
+        <p class="high card-text m-0 d-flex justify-content-center"></p>
+      </div>
+    </div>
+    <div class="col-2 card mx-1" style="width: 18rem;">
+      <div class="card-body">
+        <div class="date card-title d-flex flex-column align-items-center justify-content-center mb-0">
+        </div>
+        <div class="icons d-flex justify-content-center"></div>
+        <p class="weather card-text m-0 d-flex justify-content-center"></p>
+        <p class="high card-text m-0 d-flex justify-content-center"></p>
+      </div>
+    </div>
+    <div class="col-2 card mx-1" style="width: 18rem;">
+      <div class="card-body">
+        <div class="date card-title d-flex flex-column align-items-center justify-content-center mb-0">
+        </div>
+        <div class="icons d-flex justify-content-center"></div>
+        <p class="weather card-text m-0 d-flex justify-content-center"></p>
+        <p class="high card-text m-0 d-flex justify-content-center"></p>
+      </div>
+    </div>
+    <div class="col-2 card mx-1" style="width: 18rem;">
+      <div class="card-body">
+        <div class="date card-title d-flex flex-column align-items-center justify-content-center mb-0">
+        </div>
+        <div class="icons d-flex justify-content-center"></div>
+        <p class="weather card-text m-0 d-flex justify-content-center"></p>
+        <p class="high card-text m-0 d-flex justify-content-center"></p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row d-flex justify-content-center mb-0 w-100">
+    <!--  *************** MAP *****************-->
+    <div class="col-2">
+          <div id="mapOverlay" class="mapOverlay hidden"></div>
+
+    </div>
+    <div class="col-6" id='map' style='width: 65vw; height: 50vh;'></div>
+    <div class="settings 2">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
+        Map Settings
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content bg-light">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Map View settings</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div>
+              <label>Change Map Views</label>
+                <select class="form-control form-control-sm custom-select mapView">
+                  <option value="default">Default</option>
+                  <option value="satellite">Satellite View</option>
+                </select>
+                </div>
+              <div class="form-group form-check my-3">
+                <input type="checkbox" class="form-check-input" value="dark" id="darkMode">
+                <label class="form-check-label" for="darkMode">Dark Mode</label>
+              </div>
+              <div class="form-group form-check my-3">
+                <input type="checkbox" class="form-check-input" value="dark" id="alerts">
+                <label class="form-check-label" for="alerts">Display Weather Alerts</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" id="settingBtn" data-dismiss="modal" class="btn btn-secondary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="js/keys.js"></script>
+<script src="js/mapbox-geocoder-utils.js"></script>
+<script src="js/weather_map.js"></script>
+</main>
+</body>
+</html>
